@@ -1,0 +1,22 @@
+class {{classname}} implements EnumInterface
+{
+
+    /**
+     * Possible values of this enum
+     */
+{{#allowableValues}}{{#enumVars}}    public const {{{name}}} = {{{value}}};
+{{/enumVars}}{{/allowableValues}}
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getAllowableEnumValues(): array
+    {
+        return [
+{{#allowableValues}}{{#enumVars}}            self::{{{name}}},
+{{/enumVars}}{{/allowableValues}}
+        ];
+    }
+}
