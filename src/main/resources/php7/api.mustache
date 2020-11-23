@@ -24,12 +24,12 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Query;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Utils as Psr7Utils;
-use GuzzleHttp\RequestOptions;
-use GuzzleHttp\Utils;
-use Psr\Http\Message\ResponseInterface;
+{{^useGuzzle6}}use GuzzleHttp\Psr7\Query;
+{{/useGuzzle6}}use GuzzleHttp\Psr7\Request;
+{{^useGuzzle6}}use GuzzleHttp\Psr7\Utils as Psr7Utils;
+{{/useGuzzle6}}use GuzzleHttp\RequestOptions;
+{{^useGuzzle6}}use GuzzleHttp\Utils;
+{{/useGuzzle6}}use Psr\Http\Message\ResponseInterface;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\HeaderSelector;
@@ -156,12 +156,14 @@ use {{invokerPackage}}\ObjectSerializer;
 
             {{#returnType}}
             $responseBody = $response->getBody();
+            /** @psalm-suppress TypeDoesNotContainType */
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
                 if (!in_array($returnType, ['string','integer','bool'])) {
-                    $content = Utils::jsonDecode($content);
+                    {{#useGuzzle6}}$content = \GuzzleHttp\json_decode($content);{{/useGuzzle6}}
+                    {{^useGuzzle6}}$content = Utils::jsonDecode($content);{{/useGuzzle6}}
                 }
             }
 
@@ -254,12 +256,14 @@ use {{invokerPackage}}\ObjectSerializer;
                 static function (ResponseInterface $response){{#returnType}} use ($returnType){{/returnType}}: array {
                     {{#returnType}}
                     $responseBody = $response->getBody();
+                    /** @psalm-suppress TypeDoesNotContainType */
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
                         if ($returnType !== 'string') {
-                            $content = Utils::jsonDecode($content);
+                            {{#useGuzzle6}}$content = \GuzzleHttp\json_decode($content);{{/useGuzzle6}}
+                            {{^useGuzzle6}}$content = Utils::jsonDecode($content);{{/useGuzzle6}}
                         }
                     }
 
@@ -305,6 +309,8 @@ use {{invokerPackage}}\ObjectSerializer;
      * @return Request
      *
      * @noinspection DuplicatedCode
+     *
+     * @psalm-suppress TypeDoesNotContainType
      */
     protected function {{operationId}}Request({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): Request
     {
@@ -412,7 +418,8 @@ use {{invokerPackage}}\ObjectSerializer;
         if (${{paramName}} !== null) {
             {{#isBinary}}
             $multipart = true;
-            $formParams['{{baseName}}'] = Psr7Utils::tryFopen(ObjectSerializer::toFormValue(${{paramName}}), 'rb');
+            {{#useGuzzle6}}$formParams['{{baseName}}'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue(${{paramName}}), 'rb');{{/useGuzzle6}}
+            {{^useGuzzle6}}$formParams['{{baseName}}'] = Psr7Utils::tryFopen(ObjectSerializer::toFormValue(${{paramName}}), 'rb');{{/useGuzzle6}}
             {{/isBinary}}
             {{^isBinary}}
             $formParams['{{baseName}}'] = ObjectSerializer::toFormValue(${{paramName}});
@@ -473,10 +480,12 @@ use {{invokerPackage}}\ObjectSerializer;
             {{^isBinary}}
             if ($headers['Content-Type'] === 'application/json') {
             {{/isBinary}}
-                $httpBody = Utils::jsonEncode($formParams);
+                {{#useGuzzle6}}$httpBody =  \GuzzleHttp\json_encode($formParams);{{/useGuzzle6}}
+                {{^useGuzzle6}}$httpBody = Utils::jsonEncode($formParams);{{/useGuzzle6}}
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                {{#useGuzzle6}}$httpBody = \GuzzleHttp\Psr7\build_query($formParams);{{/useGuzzle6}}
+                {{^useGuzzle6}}$httpBody = Query::build($formParams);{{/useGuzzle6}}
             }
         }
 
@@ -519,7 +528,8 @@ use {{invokerPackage}}\ObjectSerializer;
             $headers
         );
 
-        $query = Query::build($queryParams);
+        {{#useGuzzle6}}$query = \GuzzleHttp\Psr7\build_query($queryParams);{{/useGuzzle6}}
+        {{^useGuzzle6}}$query = Query::build($queryParams);{{/useGuzzle6}}
         return new Request(
             '{{httpMethod}}',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

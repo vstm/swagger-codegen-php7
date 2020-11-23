@@ -60,6 +60,7 @@ public class Php7Generator extends PhpClientCodegen {
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
+        additionalProperties.put("useGuzzle6", true);
 
         this.typeMapping.put("date", "\\DateTimeImmutable");
         this.typeMapping.put("Date", "\\DateTimeImmutable");
