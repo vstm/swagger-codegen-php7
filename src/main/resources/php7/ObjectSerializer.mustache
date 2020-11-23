@@ -238,7 +238,6 @@ class ObjectSerializer
      * @param mixed    $data          object or primitive to be deserialized
      * @param string   $class         class name is passed as a string
      * @param string[] $httpHeaders   HTTP headers
-     * @param string   $discriminator discriminator if polymorphism is used
      *
      * @return object|array|null an single or an array of $class instances
      */
@@ -338,14 +337,14 @@ class ObjectSerializer
         }
         $instance = new $class();
         foreach ($class::swaggerTypes() as $property => $type) {
-            $propertySetter = $class::setters()[$property];
+            $propertySetter = $class::setters()[$property] ?? null;
 
-            if (!isset($propertySetter) || !isset($data->{$class::attributeMap()[$property]})) {
+            if (!$propertySetter || !isset($data->{$class::attributeMap()[$property]})) {
                 continue;
             }
 
             $propertyValue = $data->{$class::attributeMap()[$property]};
-            if (isset($propertyValue)) {
+            if ($propertyValue) {
                 $instance->$propertySetter(self::deserialize($propertyValue, $type));
             }
         }

@@ -429,9 +429,9 @@ use {{invokerPackage}}\ObjectSerializer;
         // body params
         $_tempBody = null;
         {{#bodyParams}}
-        if (isset(${{paramName}})) {
+        {{#required}}$_tempBody = ${{paramName}};{{/required}}{{^required}}if (isset(${{paramName}})) {
             $_tempBody = ${{paramName}};
-        }
+        }{{/required}}
         {{/bodyParams}}
 
         {{#isBinary}}
@@ -455,6 +455,7 @@ use {{invokerPackage}}\ObjectSerializer;
 
         {{#bodyParams}}
         // for model (json/xml)
+        // @phpstan-ignore-next-line
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             $httpBody = $_tempBody;

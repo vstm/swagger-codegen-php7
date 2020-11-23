@@ -62,9 +62,6 @@ public class Php7Generator extends PhpClientCodegen {
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("useGuzzle6", true);
 
-        this.typeMapping.put("date", "\\DateTimeImmutable");
-        this.typeMapping.put("Date", "\\DateTimeImmutable");
-        this.typeMapping.put("DateTime", "\\DateTimeImmutable");
         this.typeMapping.put("double", "float");
 
         this.typeMapping.put("map", "array");
@@ -77,6 +74,9 @@ public class Php7Generator extends PhpClientCodegen {
 
         this.defaultIncludes.add("map");
         this.defaultIncludes.add("array");
+
+        this.cliOptions.add(CliOption.newBoolean("immutableDateTime", "Use immutable date time classes").defaultValue(Boolean.TRUE.toString()));
+        this.cliOptions.add(CliOption.newBoolean("useGuzzle6", "Use guzzle version 6").defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -92,6 +92,17 @@ public class Php7Generator extends PhpClientCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        Object useImmutableDateTime = this.additionalProperties.get("immutableDateTime");
+
+        if (useImmutableDateTime != null && Boolean.parseBoolean(useImmutableDateTime.toString())) {
+            this.typeMapping.put("date", "\\DateTimeImmutable");
+            this.typeMapping.put("Date", "\\DateTimeImmutable");
+            this.typeMapping.put("DateTime", "\\DateTimeImmutable");
+        }
+
+        Object useGuzzle6 = this.additionalProperties.get("useGuzzle6");
+        this.additionalProperties.put("useGuzzle6", useGuzzle6 != null && Boolean.parseBoolean(useGuzzle6.toString()));
+
         this.supportingFiles.clear();
         this.supportingFiles.add(new SupportingFile("ApiException.mustache", this.toPackagePath(this.invokerPackage, this.srcBasePath), "ApiException.php"));
         this.supportingFiles.add(new SupportingFile("Configuration.mustache", this.toPackagePath(this.invokerPackage, this.srcBasePath), "Configuration.php"));
