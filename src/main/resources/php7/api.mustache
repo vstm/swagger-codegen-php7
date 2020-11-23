@@ -530,6 +530,7 @@ use {{invokerPackage}}\ObjectSerializer;
 
         {{#useGuzzle6}}$query = \GuzzleHttp\Psr7\build_query($queryParams);{{/useGuzzle6}}
         {{^useGuzzle6}}$query = Query::build($queryParams);{{/useGuzzle6}}
+        /** @psalm-suppress ImplicitToStringCast */
         return new Request(
             '{{httpMethod}}',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
