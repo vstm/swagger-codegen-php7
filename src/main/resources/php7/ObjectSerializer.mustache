@@ -51,7 +51,7 @@ class ObjectSerializer
                 $data[$property] = self::sanitizeForSerialization($value);
             }
             return $data;
-        } elseif (is_object($data)) {
+        } elseif ($data instanceof ModelInterface) {
             $values = [];
             $class = get_class($data);
             $formats = $class::swaggerFormats();
@@ -321,7 +321,7 @@ class ObjectSerializer
                 $imploded = implode("', '", $class::getAllowableEnumValues());
                 throw new \InvalidArgumentException("Invalid value for enum '$class', must be one of: '$imploded'");
             }
-            return $data;
+            return new $class($data);
         }
 
         // If a discriminator is defined and points to a valid subclass, use it.
