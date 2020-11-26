@@ -60,7 +60,8 @@ public class Php7Generator extends PhpClientCodegen {
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties.put("useGuzzle6", true);
+        additionalProperties.put("useGuzzle6", Boolean.TRUE.toString());
+        additionalProperties.put("immutableDateTime", Boolean.TRUE.toString());
 
         this.typeMapping.put("double", "float");
 
@@ -75,8 +76,8 @@ public class Php7Generator extends PhpClientCodegen {
         this.defaultIncludes.add("map");
         this.defaultIncludes.add("array");
 
-        this.cliOptions.add(CliOption.newBoolean("immutableDateTime", "Use immutable date time classes").defaultValue(Boolean.TRUE.toString()));
-        this.cliOptions.add(CliOption.newBoolean("useGuzzle6", "Use guzzle version 6").defaultValue(Boolean.TRUE.toString()));
+        this.addSwitch("immutableDateTime", "Use immutable date time classes", true);
+        this.addSwitch("useGuzzle6", "Use guzzle version 6", true);
     }
 
     @Override
@@ -94,7 +95,7 @@ public class Php7Generator extends PhpClientCodegen {
         super.processOpts();
         Object useImmutableDateTime = this.additionalProperties.get("immutableDateTime");
 
-        if (useImmutableDateTime != null && Boolean.parseBoolean(useImmutableDateTime.toString())) {
+        if (useImmutableDateTime == null || Boolean.parseBoolean(useImmutableDateTime.toString())) {
             this.typeMapping.put("date", "\\DateTimeImmutable");
             this.typeMapping.put("Date", "\\DateTimeImmutable");
             this.typeMapping.put("DateTime", "\\DateTimeImmutable");
