@@ -92,7 +92,7 @@ use {{invokerPackage}}\ObjectSerializer;
      * @throws InvalidArgumentException
      * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
      */
-    public function {{operationId}}({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): {{#returnType}}{{#returnContainer}}array{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    public function {{operationId}}({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): {{#returnType}}{{#returnContainer}}array{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}{{^returnType}}void{{/returnType}}
     {
         {{#returnType}}[$response] = {{/returnType}}$this->{{operationId}}WithHttpInfo({{#parameters}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/parameters}});{{#returnType}}
         return $response;{{/returnType}}
@@ -120,7 +120,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @noinspection DuplicatedCode
      */
-    public function {{operationId}}WithHttpInfo({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): array
+    public function {{operationId}}WithHttpInfo({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): array
     {
         {{#returnType}}$returnType = '{{#vendorExtensions.x-php-return-type}}{{vendorExtensions.x-php-return-type}}{{/vendorExtensions.x-php-return-type}}{{^vendorExtensions.x-php-return-type}}{{returnType}}{{/vendorExtensions.x-php-return-type}}';{{/returnType}}
         $request = $this->{{operationId}}Request({{#parameters}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/parameters}});
@@ -215,7 +215,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @return PromiseInterface
      */
-    public function {{operationId}}Async({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): PromiseInterface
+    public function {{operationId}}Async({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): PromiseInterface
     {
         return $this->{{operationId}}AsyncWithHttpInfo({{#parameters}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/parameters}})
             ->then(
@@ -245,7 +245,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @noinspection DuplicatedCode
      */
-    public function {{operationId}}AsyncWithHttpInfo({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): PromiseInterface
+    public function {{operationId}}AsyncWithHttpInfo({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): PromiseInterface
     {
         {{#returnType}}$returnType = '{{#vendorExtensions.x-php-return-type}}{{vendorExtensions.x-php-return-type}}{{/vendorExtensions.x-php-return-type}}{{^vendorExtensions.x-php-return-type}}{{returnType}}{{/vendorExtensions.x-php-return-type}}';{{/returnType}}
         $request = $this->{{operationId}}Request({{#parameters}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/parameters}});
@@ -312,7 +312,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @psalm-suppress TypeDoesNotContainType
      */
-    protected function {{operationId}}Request({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): Request
+    protected function {{operationId}}Request({{#parameters}}{{^required}}?{{/required}}{{#vendorExtensions.x-is-container}}array{{/vendorExtensions.x-is-container}}{{^vendorExtensions.x-is-container}}{{dataType}}{{/vendorExtensions.x-is-container}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/parameters}}): Request
     {
         {{#parameters}}
         {{#hasValidation}}
