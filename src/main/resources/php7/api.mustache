@@ -372,8 +372,8 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/collectionFormat}}
         {{#required}}
-        {{/required}}
         $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}}, {{#dataFormat}}'{{{dataFormat}}}'{{/dataFormat}}{{^dataFormat}}null{{/dataFormat}});
+        {{/required}}        
         {{^required}}
         if (${{paramName}} !== null) {
             $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}}, {{#dataFormat}}'{{{dataFormat}}}'{{/dataFormat}}{{^dataFormat}}null{{/dataFormat}});
