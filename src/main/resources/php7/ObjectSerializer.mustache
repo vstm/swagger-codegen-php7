@@ -111,12 +111,12 @@ class ObjectSerializer
      * If it's a string, pass through unchanged. It will be url-encoded
      * later.
      *
-     * @param string[]|string|\DateTime $object an object to be serialized to a string
+     * @param string[]|string|bool|int|\DateTimeInterface $object an object to be serialized to a string
      * @param string|null $format the format of the parameter
      *
      * @return string the serialized object
      */
-    public static function toQueryValue($object, $format = null)
+    public static function toQueryValue($object, $format = null): string
     {
         if (is_array($object)) {
             return implode(',', $object);
@@ -163,7 +163,7 @@ class ObjectSerializer
      * If it's a datetime object, format it in RFC3339
      * If it's a date, format it in Y-m-d
      *
-     * @param string|\DateTimeInterface $value the value of the parameter
+     * @param string|bool|int|\DateTimeInterface $value the value of the parameter
      * @param string|null $format the format of the parameter
      *
      * @return string the header string
@@ -172,9 +172,12 @@ class ObjectSerializer
     {
         if ($value instanceof \DateTimeInterface) {
             return ($format === 'date') ? $value->format('Y-m-d') : $value->format(\DateTime::ATOM);
-        } else {
-            return $value;
         }
+        if (is_bool($value)) {
+            return var_export($value, true);
+        }
+
+        return (string) $value;
     }
 
     /**
